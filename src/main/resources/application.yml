@@ -1,1 +1,20 @@
-
+spring:
+  profiles:
+    active: local
+---
+spring:
+  profiles: local, test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    database: mysql
+---
+spring.profiles: local
+spring.profiles.include: db
+---
+spring:
+  profiles: test
+  h2:
+    console:
+      enabled: true
