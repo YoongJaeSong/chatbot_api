@@ -3,18 +3,15 @@ spring:
     active: local
 ---
 spring:
-  profiles: local, test
+  profiles: local
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     show-sql: true
-    database: mysql
+    h2:
+      console:
+        enabled: true
 ---
-spring.profiles: local
+spring.profiles: real
 spring.profiles.include: db
----
-spring:
-  profiles: test
-  h2:
-    console:
-      enabled: true
+
