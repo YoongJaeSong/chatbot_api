@@ -22,7 +22,7 @@ public class Maker {
     @Column(length = 50)
     private String name;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "maker_id")
     private List<Car> cars = new ArrayList<>();
 
