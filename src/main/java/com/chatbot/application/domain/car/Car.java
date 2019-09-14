@@ -4,12 +4,14 @@ import com.chatbot.application.domain.car_color.CarColor;
 import com.chatbot.application.domain.maker.Maker;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity(name = "car")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Car {
@@ -48,7 +50,6 @@ public class Car {
     @Column(name = "grand_clearance")
     private int grandClearance;
 
-
     @Column(name = "driving_system", columnDefinition = "char(3)")
     private String drivingSystem;
 
@@ -79,30 +80,23 @@ public class Car {
     @Column(length = 5, name = "max_torque")
     private String maxTorque;
 
-
     @Column(length = 30, name = "guarantee_basic")
     private String guaranteeBasic;
-
 
     @Column(length = 30, name = "guarantee_power")
     private String guaranteePower;
 
-
     @Column(length = 30)
     private String transmission;
-
 
     @Column(name = "wheel_front", columnDefinition = "char(5)")
     private String wheelFront;
 
-
     @Column(name = "wheel_rear", columnDefinition = "char(5)")
     private String wheelReal;
 
-
     @Column(length = 100, name = "engine_type")
     private String engineType;
-
 
     @Column(name = "tire_front")
     private int tireFront;
@@ -122,10 +116,8 @@ public class Car {
     @Column
     private int displacement;
 
-
     @Column(length = 30, name = "suspension_front")
     private String suspensionFront;
-
 
     @Column(length = 30, name = "suspension_rear")
     private String suspensionRear;
@@ -142,11 +134,10 @@ public class Car {
     @Column(length = 12, name = "max_output")
     private String maxOutput;
 
-
     @Column(name = "load_capacity")
     private int loadCapacity;
 
-    @ManyToOne(targetEntity = Maker.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Maker.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "maker_id")
     private Maker maker;
 
