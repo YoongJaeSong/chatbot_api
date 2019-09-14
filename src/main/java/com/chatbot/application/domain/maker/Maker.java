@@ -22,10 +22,6 @@ public class Maker {
     @Column(length = 50)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "maker_id")
-    private List<Car> cars = new ArrayList<>();
-
     @Builder
     public Maker(int no, String name) {
         this.no = no;
