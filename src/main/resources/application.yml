@@ -3,7 +3,6 @@ spring:
     active: local
 ---
 spring:
-  profiles: local
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -11,6 +10,13 @@ spring:
     h2:
       console:
         enabled: true
+
+cloud:
+  aws:
+    s3:
+      bucket: chatting
+    region:
+      static: ap-northeast-2
 ---
 spring.profiles: real
 spring.profiles.include: db
