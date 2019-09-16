@@ -3,6 +3,7 @@ package com.chatbot.application.aws;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.chatbot.application.dto.ImageUploadRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,19 +22,21 @@ public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
 
+    private static final String DIRECTORY_NAME = "static";
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String imageUpload(MultipartFile file, String dirName) throws IOException {
-        File uploadFile = convert(file).orElseThrow(
+    public String imageUpload(ImageUploadRequestDto dto) throws IOException {
+        File uploadFile = convert(dto.getImage()).orElseThrow(
                 () -> new IllegalArgumentException("MultipartFile -> File 전환 실패")
         );
 
-        return uploadToS3(uploadFile, dirName);
+        return uploadToS3(uploadFile, dto.getRoomNumber());
     }
 
-    private String uploadToS3(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+    private String uploadToS3(File uploadFile, int roomNumber) {
+        String fileName = S3Uploader.DIRECTORY_NAME + "/" + roomNumber + "/" + uploadFile.getName();
         String uploadUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadUrl;
