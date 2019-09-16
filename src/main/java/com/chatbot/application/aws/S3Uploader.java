@@ -13,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @Slf4j
@@ -27,7 +31,7 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String imageUpload(ImageUploadRequestDto dto) throws IOException {
+    public String imageUpload(ImageUploadRequestDto dto) throws IOException, NoSuchAlgorithmException {
         File uploadFile = convert(dto.getImage()).orElseThrow(
                 () -> new IllegalArgumentException("MultipartFile -> File 전환 실패")
         );
@@ -35,11 +39,27 @@ public class S3Uploader {
         return uploadToS3(uploadFile, dto.getRoomNumber());
     }
 
-    private String uploadToS3(File uploadFile, int roomNumber) {
-        String fileName = S3Uploader.DIRECTORY_NAME + "/" + roomNumber + "/" + uploadFile.getName();
+    private String uploadToS3(File uploadFile, int roomNumber) throws NoSuchAlgorithmException {
+        String fileName = S3Uploader.DIRECTORY_NAME + "/" + roomNumber + "/" + hashingFile(uploadFile.getName());
         String uploadUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadUrl;
+    }
+
+    private String hashingFile(String fileName) throws NoSuchAlgorithmException {
+        int pos = fileName.lastIndexOf(".");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String newFileName = fileName.substring(0, pos) + format.format(new Date());
+        String extension = fileName.substring(pos);
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        StringBuilder stringBuilder = new StringBuilder();
+
+        messageDigest.update(newFileName.getBytes());
+        for (byte dig : messageDigest.digest()) {
+            stringBuilder.append(Integer.toString((dig & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return stringBuilder.append(extension).toString();
     }
 
     private void removeNewFile(File targetFile) {

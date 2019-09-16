@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class S3Controller {
     private final S3Uploader s3Uploader;
 
     @PostMapping(value = "/api/image/upload")
-    public String uploadToS3(@ModelAttribute ImageUploadRequestDto dto) throws IOException {
+    public String uploadToS3(@ModelAttribute ImageUploadRequestDto dto) throws IOException, NoSuchAlgorithmException {
         return s3Uploader.imageUpload(dto);
     }
 }
