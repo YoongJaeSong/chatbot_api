@@ -36,10 +36,10 @@ public class S3Uploader {
                 () -> new IllegalArgumentException("MultipartFile -> File 전환 실패")
         );
 
-        return uploadToS3(uploadFile, dto.getRoomNumber());
+        return upload(uploadFile, dto.getRoomNumber());
     }
 
-    private String uploadToS3(File uploadFile, int roomNumber) throws NoSuchAlgorithmException {
+    private String upload(File uploadFile, int roomNumber) throws NoSuchAlgorithmException {
         String fileName = S3Uploader.DIRECTORY_NAME + "/" + roomNumber + "/" + hashingFile(uploadFile.getName());
         String uploadUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
