@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: local
+---
+spring:
+  profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    h2:
+      console:
+        enabled: true
+---
+spring.profiles: real
+spring.profiles.include: db
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
