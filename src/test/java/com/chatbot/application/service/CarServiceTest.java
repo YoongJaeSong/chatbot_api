@@ -1,5 +1,7 @@
-package com.chatbot.application.domain.car;
+package com.chatbot.application.service;
 
+import com.chatbot.application.domain.car.Car;
+import com.chatbot.application.domain.car.CarRepository;
 import com.chatbot.application.domain.maker.Maker;
 import com.chatbot.application.domain.maker.MakerRepository;
 import org.junit.Test;
@@ -8,20 +10,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CarRepositoryTest {
+public class CarServiceTest {
+
+    @Autowired
+    MakerRepository makerRepository;
+
     @Autowired
     CarRepository carRepository;
 
+    @Autowired
+    CarService carService;
+
     @Test
-    public void 메이커_아이디로_차량_조회() {
-        //given
+    public void 차량조회() {
+        Maker maker = Maker.builder().no(26)
+                .name("test")
+                .build();
+
         carRepository.save(Car.builder()
                 .modelNo(1)
                 .model("test model")
@@ -30,20 +40,18 @@ public class CarRepositoryTest {
                 .classNo(1)
                 .className("test class")
                 .year(2019)
-                .maker(Maker.builder()
-                        .no(1)
-                        .name("테스트")
-                        .build())
+                .maker(maker)
                 .build());
 
-        //when
-        List<Car> cars = carRepository.findByMakerId(1);
-        Car car = cars.get(0);
+        Car car = carRepository.findAll().get(0);
 
-        //then
+        assertThat(car.getModelNo(), is(1));
         assertThat(car.getModel(), is("test model"));
-        assertThat(car.getMaker().getName(), is("테스트"));
         assertThat(car.getLevelNo(), is(1));
         assertThat(car.getLevel(), is("test level"));
+        assertThat(car.getClassNo(), is(1));
+        assertThat(car.getClassName(), is("test class"));
+        assertThat(car.getYear(), is(2019));
+        assertThat(car.getMaker().getName(), is("test"));
     }
 }
