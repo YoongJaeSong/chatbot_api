@@ -44,8 +44,8 @@ public class Car {
     @Column
     private int price;
 
-    @Column(length = 30, name = "fuel_type")
-    private String fuelType;
+    @Column(length = 30)
+    private String fuel;
 
     @Column(name = "grand_clearance")
     private int grandClearance;
@@ -147,7 +147,7 @@ public class Car {
 
     @Builder
     public Car(int modelNo, String model, int levelNo, String level, int classNo, String className, int year,
-               int price, String fuelType, int grandClearance, String drivingSystem, String breakFront, String breakRear,
+               int price, String fuel, int grandClearance, String drivingSystem, String breakFront, String breakRear,
                int weight, int maxSpeed, int fuelCapacity, float fuelEfficiencyHighway, float fuelEfficiencyCombined,
                float fuelEfficiencyCity, String maxTorque, String guaranteeBasic, String guaranteePower,
                String transmission, String wheelFront, String wheelReal, String engineType, int tireFront,
@@ -162,7 +162,7 @@ public class Car {
         this.className = className;
         this.year = year;
         this.price = price;
-        this.fuelType = fuelType;
+        this.fuel = fuel;
         this.grandClearance = grandClearance;
         this.drivingSystem = drivingSystem;
         this.breakFront = breakFront;
