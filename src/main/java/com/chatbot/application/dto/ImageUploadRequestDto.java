@@ -15,8 +15,8 @@ public class ImageUploadRequestDto {
     private int roomNumber;
 
     @Builder
-    public ImageUploadRequestDto(MultipartFile image, int roomNumber) {
+    public ImageUploadRequestDto(MultipartFile image, int roomId) {
         this.image = image;
-        this.roomNumber = roomNumber;
+        this.roomNumber = roomId;
     }
 }
