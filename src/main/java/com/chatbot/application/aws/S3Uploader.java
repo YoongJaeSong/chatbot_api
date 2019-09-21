@@ -39,8 +39,8 @@ public class S3Uploader {
         return upload(uploadFile, dto.getRoomNumber());
     }
 
-    private String upload(File uploadFile, int roomNumber) throws NoSuchAlgorithmException {
-        String fileName = S3Uploader.DIRECTORY_NAME + "/" + roomNumber + "/" + hashingFile(uploadFile.getName());
+    private String upload(File uploadFile, int roomId) throws NoSuchAlgorithmException {
+        String fileName = S3Uploader.DIRECTORY_NAME + "/" + roomId + "/" + hashingFile(uploadFile.getName());
         String uploadUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadUrl;
