@@ -12,11 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageUploadRequestDto {
 
     private MultipartFile image;
-    private int roomNumber;
+    private int roomId;
 
     @Builder
     public ImageUploadRequestDto(MultipartFile image, int roomId) {
         this.image = image;
-        this.roomNumber = roomId;
+        this.roomId = roomId;
     }
 }
