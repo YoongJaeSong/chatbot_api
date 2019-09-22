@@ -36,7 +36,7 @@ public class S3Uploader {
                 () -> new IllegalArgumentException("MultipartFile -> File 전환 실패")
         );
 
-        return upload(uploadFile, dto.getRoomNumber());
+        return upload(uploadFile, dto.getRoomId());
     }
 
     private String upload(File uploadFile, int roomId) throws NoSuchAlgorithmException {
